@@ -8,4 +8,6 @@ public interface JdbcRepository {
     void savePerson(List<Person> data);
 
     void saveWithoutBatch(List<Person> data);
+
+    void saveWithoutBatch2(List<Object[]> data);
 }

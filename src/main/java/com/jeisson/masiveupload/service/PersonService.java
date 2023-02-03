@@ -36,4 +36,12 @@ public class PersonService {
         jdbcRepository.saveWithoutBatch(data);
     }
 
+    public void saveWithoutBatch2(MultipartFile file) {
+        var data = csvReadGateway.readCsv2(file);
+        if (data.isEmpty()) {
+            throw new RuntimeException("File is empty");
+        }
+        jdbcRepository.saveWithoutBatch2(data);
+    }
+
 }

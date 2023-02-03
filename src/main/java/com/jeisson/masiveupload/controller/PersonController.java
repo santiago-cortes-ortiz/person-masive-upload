@@ -36,4 +36,12 @@ public class PersonController {
                 "File uploaded successfully!"
         );
     }
+
+    @PostMapping("/without-batch2")
+    public ResponseEntity<String> saveWithoutBatch2(@RequestParam("file") MultipartFile file) {
+        personService.saveWithoutBatch2(file);
+        return ResponseEntity.ok(
+                "File uploaded successfully!"
+        );
+    }
 }

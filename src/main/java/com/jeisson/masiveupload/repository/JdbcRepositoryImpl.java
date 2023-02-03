@@ -18,11 +18,16 @@ public class JdbcRepositoryImpl implements JdbcRepository {
     @Override
     @Transactional
     public void savePerson(List<Person> data) {
+        long startTime = System.currentTimeMillis();
         try {
             List<Object[]> objects = data
                     .stream()
                     .map(person -> new Object[]{person.name(), person.lastName(), person.phone()}).toList();
             jdbcTemplate.batchUpdate("INSERT INTO tbl_person (name, lastname, phone) VALUES (?, ?, ?)", objects);
+            long endTime = System.currentTimeMillis();
+            long totalTime = endTime - startTime;
+            double totalTimeInSeconds = totalTime / 1000.0;
+            System.out.println("El proceso tardó escribir: " + totalTimeInSeconds + " segundos");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -37,6 +42,16 @@ public class JdbcRepositoryImpl implements JdbcRepository {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void saveWithoutBatch2(List<Object[]> data) {
+        long startTime = System.currentTimeMillis();
+        jdbcTemplate.batchUpdate("INSERT INTO tbl_person (name, lastname, phone) VALUES (?, ?, ?)", data);
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        double totalTimeInSeconds = totalTime / 1000.0;
+        System.out.println("El proceso tardó en escribir: " + totalTimeInSeconds + " segundos");
     }
 
 }

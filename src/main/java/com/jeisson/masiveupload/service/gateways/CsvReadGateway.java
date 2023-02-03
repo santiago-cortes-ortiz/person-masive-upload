@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface CsvReadGateway {
     List<Person> readCsv(MultipartFile file);
+
+    List<Object[]> readCsv2(MultipartFile file);
 }
