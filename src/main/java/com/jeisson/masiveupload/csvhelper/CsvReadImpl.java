@@ -1,5 +1,6 @@
 package com.jeisson.masiveupload.csvhelper;
 
+import com.jeisson.masiveupload.model.Person;
 import com.jeisson.masiveupload.service.gateways.CsvReadGateway;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -17,18 +18,18 @@ import java.util.List;
 @Component
 public class CsvReadImpl implements CsvReadGateway {
     @Override
-    public List<String[]> readCsv(MultipartFile file) {
+    public List<Person> readCsv(MultipartFile file) {
         try {
             Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
             var parser = new CSVParser(reader,
                     CSVFormat.DEFAULT);
-            List<String[]> rows = new ArrayList<>();
+            List<Person> rows = new ArrayList<>();
             for (CSVRecord record : parser) {
                 //continue if header row
                 if (record.getRecordNumber() == 1) {
                     continue;
                 }
-                rows.add(record.stream().toArray(String[]::new));
+                rows.add(new Person(record.get(0), record.get(1), record.get(2)));
             }
             parser.close();
             return rows;

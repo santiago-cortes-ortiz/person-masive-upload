@@ -1,5 +1,6 @@
 package com.jeisson.masiveupload.controller;
 
+import com.jeisson.masiveupload.model.Person;
 import com.jeisson.masiveupload.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public class PersonController {
     private final PersonService personService;
 
     @GetMapping("/readed-file")
-    public ResponseEntity<List<String[]>> getReadedFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<List<Person>> getReadedFile(@RequestParam("file") MultipartFile file) {
         return ResponseEntity.ok(
                 personService.readCsv(file)
         );
