@@ -13,6 +13,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -39,5 +40,16 @@ public class PersonServiceTest {
         //assert
         verify(csvReadGateway).readCsv(fileMock);
         verify(jdbcRepository).savePerson(data);
+    }
+
+    @Test
+    public void testSavePersonException() {
+        //prepare
+        var fileMock = new MockMultipartFile("file", "test.csv", "text/plain",
+                "".getBytes());
+        when(csvReadGateway.readCsv(fileMock))
+                .thenReturn(List.of());
+        assertThrows(RuntimeException.class,
+                () -> personService.savePerson(fileMock));
     }
 }
